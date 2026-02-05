@@ -37,6 +37,21 @@
         a:hover {
             text-decoration: underline;
         }
+
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #1557b0;
+        }
     </style>
 </head>
 
@@ -53,6 +68,57 @@
     <p>Ma chaine youtube preferee :
         <a href="https://youtube.com">Cliquez ici</a>
     </p>
+    <h2>zone interactive</h2>
+
+    <button onclick="changerCouleur()">
+        Changer la couleur de font
+    </button>
+
+    <script>
+        function changerCouleur() {
+            var couleurs = [
+                "#ffe0e0", "#e0ffe0", "#e0e0ff",
+                "#fff8e0", "f0e0ff", "e0fff8"
+            ];
+            var index = Math.floor(
+                Math.random() * couleurs.length
+            );
+            document.body.style.backgroundColor
+                = couleurs[index];
+        }
+    </script>
+    <p>Nombre de clics :
+        <span id="compteur"></span>
+    </p>
+    <button onclick="compteur()">+1</button>
+
+    <script>
+        var clics = 0;
+        function compteur() {
+            clics = clics + 1;
+            document.getElementById("compteur")
+                .textContent = clics;
+        }
+    </script>
+    <button onclick="modeSombre()">
+        Mode sombre / clair
+    </button>
+
+    <script>
+        var sombre = false;
+        function modeSombre() {
+            sombre = !sombre;
+            if (sombre) {
+                document.body.style.backgroundColor
+                    = "#222";
+                document.body.style.color = "#eee";
+            } else {
+                document.body.style.backgroundColor
+                    = "#f0f8ff";
+                document.body.style.color = "#333";
+            }
+        }
+    </script>
 </body>
 
 </html>
