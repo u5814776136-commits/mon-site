@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Basket - Aboubacar</title>
+    <style>
+        /* ===== STYLE GENERAL ===== */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== LE TITRE ===== */
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            border-bottom: 10px;
+        }
+
+        /* ===== LES PARAGRAPHES ===== */
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* ===== LES LIENS ===== */
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #1557b0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav style="background-color: #1a73e8;
+   padding: 15px;
+   text-align: center;
+   margin: -20px -20px 20px -20px;">
+        <a href="index.html" style="color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;">Accueil</a>
+        <a href="hobbies.html" style="color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;">Mes hobbies</a>
+        <a href="contact.html" style="color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;">contact</a>
+    </nav>
+    <h1> Quiz Basketball</h1>
+    <p>Teste tes connaissances sur le basket !</p>
+    <div id="quiz-container">
+        <Combien de points vaut un lancer franc ?>
+            <div class="question">
+                <p><b>question 1</b> : Combien de joueurs par équipe au basket ?</p>
+                <button onclick="repondre (5, 1)">5</button>
+                <button onclick="repondre (6, 1)">6</button>
+                <button onclick="repondre (7, 1)">7</button>
+                <p id="resultat-1"></p>
+                <p><b>question 2</b> : Quelle est la couleur du ballon de basket officiel ?</p>
+                <button onclick="repondre ('bleu', 2)">bleu</button>
+                <button onclick="repondre ('orange', 2)">orange</button>
+                <button onclick="repondre ('rouge', 2)">rouge</button>
+                <p id="resultat-2"></p>
+            </div>
+
+            <Quelle est la couleur du ballon de basket officiel ? Comment s'appelle le panier en anglais ?>
+    </div>
+    <p>Score : <span id="score">0</span> / 2</p>
+    <script>
+        var score = 0;
+        var reponses = [
+            5, // Bonne réponse Q1
+            "orange", // Bonne réponse Q2
+            2 //Bonne réponse Q3
+        ];
+
+        function repondre(reponse, numQuestion) {
+            var resultat = document.getElementById(
+                "resultat-" + numQuestion
+
+            );
+            console.log("reponse :" + reponse);
+            console.log("numQuestion:" + numQuestion);
+            console.log("reponses[numQuestion]:" + reponses[numQuestion]);
+
+            if (reponse === reponses[numQuestion - 1]) {
+                resultat.textContent = " Correct !";
+                resultat.style.color = "green";
+                if (score < 2) {
+                    score = score + 1;
+                }
+            } else {
+                resultat.textContent = " Faux !"
+                resultat.style.color = "red";
+            }
+
+            document.getElementById("score")
+                .textContent = score;
+        }
+    </script>
+</body>
+
+</html>
