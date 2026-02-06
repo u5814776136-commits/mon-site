@@ -80,11 +80,81 @@
   font-weight: bold;">Quiz</a>
     </nav>
     <h1>Me Contacter</h1>
-    <p>Tu veux me parler ? Voici mes coordonnées :</p>
-    <ul>
-        <li> Email : u5814776136@gmail.com</li>
-    </ul>
+    <p>Remplis ce formulaire pour m'envoyer un message !</p>
 
+    <form id="formulaire-contact" style="max-width: 600px;
+    margin: 0 auto; background: white; padding: 30px;
+    border-radius: 10px; box-shadow: 0 2px 10px
+    rgba(0,0,00.1);">
+
+        <div style="margin-bottom: 20px;">
+            <label><b>Ton nom:</b></label><br>
+            <input type="text" id="nom" required style="width: 100%; padding: 10px;font-size: 16px;
+    border: 2px solid #ddd; border-radius: 5px;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label><b>Ton email:</b></label><br>
+            <input type="email" id="email" required style="width: 100%;padding: 10px;font-size: 16px;
+    border: 2px solid #ddd; border-radius: 5px;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label><b>Ton message:</b></label><br>
+            <textarea id="message" required rows="5" style="width: 100%;padding: 10px;font-size: 16px;
+    border: 2px solid #ddd; border-radius: 5px;"></textarea>
+        </div>
+
+        <button type="submit" style="background-color: #1a73e8;
+color: white; padding: 12px 30px; border: none;
+border-radius: 5px;font-size: 16px;cursor: pointer;">
+            Envoyer
+        </button>
+
+        <p id="resultat-form" style="margin-top: 20px;
+font-weight: bold;"></p>
+    </form>
+
+    <script>
+        document.getElementById('formulaire-contact')
+            .addEventListener('submit', function (e) {
+                e.preventDefault();//Empêche l'envoi réel
+
+                //Récupère les valeurs
+                var nom = document.getElementById('nom').value;
+                var email = document.getElementById('message').value;
+                var message = document.getElementById('message').value;
+
+                //Validation
+                if (nom.length < 2) {
+                    afficherResultat(' Nom trop court', 'red');
+                    return;
+                }
+
+                if (!email.includes('@') || !email.includes('.')) {
+                    afficherResultat(' Email invalide', 'red');
+                    return;
+                }
+
+                if (message.length < 10) {
+                    afficherResultat(' Message trop court (min 10 caractères)',
+                        'red');
+                    return;
+                }
+
+                //Si tout est OK
+                afficherResultat(' Message envoyé avec succès !', 'green');
+
+                //Réinitialise le formulaire
+                document.getElementById('formulaire-contact').reset()
+            });
+
+        function afficherResultat(texte, couleur) {
+            var resultat = document.getElementById('resultat-form');
+            resultat.textContent = texte;
+            resultat.style.color = couleur
+        }
+    </script>
 </body>
 
 </html>
