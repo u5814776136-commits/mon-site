@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pierre-Papier-Ciseaux - Aboubacar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .bouton-choix {
+            font-size: 60px;
+            padding: 30px;
+            margin: 10px;
+            border: none;
+            background: white;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .bouton-choix:hover {
+            transform: scale(1.2);
+        }
+
+        #resultat {
+            font-size: 24px;
+            margin: 30px 0;
+            min-height: 80px;
+        }
+
+        .score {
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <h1> Pierre-Papier-Ciseaux</h1>
+    <p>Choisis ton arme !</p>
+
+    <div>
+        <button class="bouton-choix" onclick="jouer('pierre')">
+
+        </button>
+        <button class="bouton-choix" onclick="jouer('papier')">
+
+        </button>
+        <button class="bouton-choix" onclick="jouer(ciseaux)">
+
+        </button>
+    </div>
+
+    <div id="resultat"></div>
+
+    <div class="score">
+        <p><b>Score</b></p>
+        <p>Toi:<span id="score-joueur">0</span></p>
+        <p>Ordi:<span id="score-ordi">0</span></p>
+    </div>
+
+    <button onclick="reinialiser()" style="margin-top: 20px; padding: 10px 20px;
+        font-size: 16px; background: white;
+        border: none; border-radius: 5px; cursor: pointer;">
+        Recommencer
+        <script>
+            var scoreJoueur = 0;
+            var scoreOrdi = 0;
+
+            function jouer(choixJoueur) {
+                //L'ordinateur choisit au hasard
+                var choix = ['pierre', 'papier', 'ciseaux'];
+                var choixOrdi = choix[Math.floor(Math.random() * 3)];
+
+                //Détermine le gagnant
+                var resultat = determineGagnant(choixJoueur, choixOrdi);
+
+                //Affiche le résultat
+                var emoji = {
+                    'pierre': ' ',
+                    'papier': ' ',
+                    'ciseaux': ' '
+                };
+
+                var message = 'Tu as choisi' + emoji[choixOrdi] +
+                    '<br>L`ordi a choisi' + emoji[choixOrdi] + '<br><br>';
+
+                if (resultat === 'victoire') {
+                    message += '<span style="color:#4caf50; font-size:30px">'
+                        +
+                        ' Tu as gagné !</span>';
+                    scoreJoueur++;
+                } else if (resultat === 'defaite') {
+                    message += '<span style="color:#f44336; font-size:30px;">'
+                        +
+                        ' Tu as perdu !</span>';
+                    scoreOrdi++;
+                } else {
+                    message += '<span style="color:#ffc107; font-size:30px;">'
+                        +
+                        ' Égalité !</span>';
+                }
+
+                document.getElementById('resultat').innerHTML = message;
+                document.getElementById('score-joueur').textContent =
+                    scoreJoueur;
+                document.getElementById('score-ordi').textContent =
+                    scoreOrdi;
+            }
+
+            function determineGagnant(joueur, ordi) {
+                if (joueur === ordi) {
+                    return 'egalite';
+                }
+
+                if (
+                    (joueur === 'pierre' && ordi === 'ciseaux') ||
+                    (joueur === 'papier' && ordi === 'pierre') ||
+                    (joueur === 'ciseaux' && ordi === 'papier')
+                ) {
+                    return 'victoire';
+                }
+
+                return 'defaite';
+            }
+
+            function reinitialiser() {
+                scoreJoueur = 0;
+                scoreOrdi = 0;
+                document.getElementById('score-joueur').textContent = 0;
+                document.getElementById('score-ordi').textContent = 0;
+                document.getElementById('resultat').innerHTML = 0;
+            }
+        </script>
+    </button>
+</body>
+
+</html>
