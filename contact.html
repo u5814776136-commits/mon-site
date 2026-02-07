@@ -116,6 +116,12 @@ font-weight: bold;"></p>
     </form>
 
     <script>
+        const PUBLIC_KEY = 'OD4AXySaXVV8N1Ot-';
+        const SERVICE_ID = 'Aboubz#2010';
+        const TEMPLATE_ID = 'template_gux5fki';
+
+        emailjs.init(PUBLIC_KEY)
+
         document.getElementById('formulaire-contact')
             .addEventListener('submit', function (e) {
                 e.preventDefault();//Empêche l'envoi réel
