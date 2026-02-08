@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mes Statistiques-Aboubacar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .graphique {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .barre-container {
+            margin: 20px 0;
+        }
+
+        .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .barre {
+            height: 30px;
+            background: linear-gradient(90deg, #1a73e8,
+                    #4285f4);
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="graphique">
+        <h1> Mes Statisques de Jeux</h1>
+        <p>Temps de jeu cette semaine (en heures)</p>
+
+        <div class="barre-container">
+            <div class="label">Fortnite</div>
+            <div class="barre" data-valeur="12" style="width: 0%;">
+                <span class="valeur"></span>
+            </div>
+        </div>
+        <div class="barre-container">
+            <div class="label">Minecraft</div>
+            <div class="barre" data-valeur="12" style="width: 0%;">
+                <span class="valeur"></span>
+            </div>
+        </div>
+
+        <div class="baarre-contrainer">
+            <div class="label">FIFA</div>
+            <div class="barre" data-valeur="8" style="width: 0%;">
+                <span class="valeur"></span>
+            </div>
+        </div>
+
+        <div class="barre-container">
+            <div class="label">Call of Duty</div>
+            <div class="barre" data-valeur="5" style="width: 0%;">
+                <span class="valeur"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            // Trouve la valeur maximum
+            var barre = document.querySelectorAll('.barre');
+            var max = 0;
+            barres.forEach(function (barre) {
+                var valeur = parselnt(barre.getAttribute('data-valeur'));
+                if (valeur > max) {
+                    max = valeur;
+                }
+            });
+
+            // Anime chaque barre
+            barres.forEach(function (barre) {
+                var valeur = parselnt(barre.getAttribute('data-valeur'));
+                var pourcentage = (valeur / max) * 100;
+
+                // Attends un peu puis anime
+                setTimeout(function () {
+                    barre.style.width = pourcentage + '%';
+                    barre.querySelector('.valeur').textContent = valeur +
+                        'h';
+                }, 100);
+            });
+        };
+    </script>
+</body>
+
+</html>
