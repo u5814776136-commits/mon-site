@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Réseau Social</title>
+    <link rel="stylesheet" href="social.css">
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .post-form {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .post-form input,
+        .post-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .post-form textarea {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .post-form button:hover {
+            background: #5568d3;
+        }
+
+        .post {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .post-user {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .post-date {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .post-content {
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .like-btn {
+            background: #f0f2f5;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .like-btn:hover {
+            background: #e4e6eb;
+        }
+
+        .like-btn.liked {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1> Mini Social</h1>
+            <p>Partage tes idées avec le monde !</p>
+        </header>
+
+        <!-- Formulaire de post -->
+        <div class="post-form">
+            <input type="text" id="username" placeholder="Ton pseudo">
+            <textarea id="message" placeholder="Quoi de neuf ?"></textarea>
+            <button onclick="createPost()">Publier</button>
+        </div>
+
+        <!-- Formulaire de post -->
+        <div id="feed"></div>
+    </div>
+
+    <script>
+        // Récupérer les posts du localStorage
+        function getPosts() {
+            const posts = localStorage.getItem("posts");
+            return posts ? JSON.parse(posts) : [];
+        }
+
+        // Sauvegarder les posts
+        function createPost(post) {
+            localStorage.setItem("posts", JSON.stringify(posts));
+        }
+
+        // Créer un nouveau post
+        function createPost() {
+            const username = document.getElementById("username").value;
+            const message = document.getElementById("message").value;
+
+            if (!username || !message) {
+                alert("Remplis tous les champs !");
+                return;
+            }
+
+            const posts = getPosts();
+            const newPost = {
+                id: Date.now(),
+                username: username,
+                message: message,
+                date: new Date().toLocaleString("fr-FR"),
+                likes: 0,
+                liked: false
+            };
+
+            post.unshift(newPost); //Ajoute au début
+            savePosts(posts);
+
+            document.getElementById("username").value = "";
+            document.getElementById("message").value = "";
+
+            displayPosts();
+        }
+
+        // Liker un post
+        function likePost(postId) {
+            const posts = getPosts();
+            const post = posts.find(p => p.id === postId);
+
+            if (post) {
+                if (post.liked) {
+                    post.likes--;
+                    post.liked = true;
+                }
+                savePosts(post);
+                displayPosts();
+            }
+        }
+
+        // Afficher tous les posts
+        function displayPosts() {
+            const posts = getPosts();
+            const feed = document.getElementById("feed");
+
+            if (posts.length === 0) {
+                feed.innerHTML = `<p style="text-alingn: center; color: #999;">
+                        Aucun post pour le moment. Sois le premier à poster !</p>`;
+                return;
+            }
+            let html = "";
+            posts.forEach(post => {
+                html += `
+                    <div class"post">
+                    <div class="post-header">
+                    <div class="post-user">${post.username}</span>
+                    <div class="post-date">${post.date}</span>
+
+                    </div>
+                    <div class="post-content">${post.message}</div>
+                    <div class="post-actions">
+                        <button class="like-btn ${post.liked ? "liked" : ""}"
+                        onclick="likePost(${post.id})">
+                           ${post.likes} J'aime
+                    </button>
+                    </div>
+                    </div>
+                    `;
+            });
+
+            feed.innerHTML = html;
+        }
+
+        // Chargerles posts au démarrage
+        displayPosts();
+    </script>
+
+    <script src="social.js"></script>
+</body>
+
+</html>
