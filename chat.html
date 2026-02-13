@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="white=device-width" , initial-scale="1.0">
+    <title>Chat en Direct </title>
+    <link rel="stylesheet" href="chat.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .message {
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1> Chat en Direct</h1>
+            <p>Discute avec tout le monde en réel !</p>
+            <div class="online-counter">
+                <span class="online-dot"></span>
+                <span id="userCount">Utilisateurs actifs</span>
+            </div>
+        </header>
+        <!-- Zone de connexion -->
+        <div id="loginSection" class="login-section">
+            <h2>Rejoins le chat !</h2>
+            <input type="text" id="loginUsername" placeholder="Choisis ton pseudo" maxlength="20">
+            <button onclick="joinChat()">Entrer dans le chat</button>
+        </div>
+        <div id="chatSection" class="chat-section" style="display: none;">
+            <!-- Infos utilisateur -->
+            <div class="user-info">
+                <span>Connecté en tant que
+                    <strong id="currentUser"></strong></span>
+                <button class="logout-btn" onclick="leaveChat()">
+                    Se déconnecter
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div id="MessagesContainer" class="Messages-container">
+                <div class="welcome-message">
+                    Bienvenue dans le chat !
+                </div>
+            </div>
+
+            <!-- Formulaire d'envoi -->
+            <div class="send-form">
+                <input type="text" id="MessagesInput" placeholder="Écris ton Messages..." maxlength="200"
+                    onkeypress="if(event.key === 'Enter') sendMessage()">
+                <button onclick="sendMessage()"> Envoyer</button>
+            </div>
+        </div>
+    </div>
+    <script src="chat.js"></script>
+
+    <script>
+        function joinChat() {
+            const username = document.getElementById("loginUsername").value.trim();
+
+            if (username) {
+                alert("Entre un pseudo !");
+                return;
+            }
+
+            // Vérifier si le pseudo est déjà pris
+            const activeUsers = getActiveUsers();
+            if (activeUsers.some(user =>
+                user.name.toLowerCase() === username.toLowerCase())) {
+                alert("Ce pseudo est déjà pris !");
+                return;
+            }
+            currentUsername = username;
+
+            // Ajouter aux utilisateurs actifs
+            activeUsers.push({ name: username, joinedAt: Date.now() });
+            saveActiveUsers(activeUsers);
+
+            // Afficher le chat
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("chatSection").style.display = "flex";
+
+            displayMessages();
+            messageCheckInterval = setInterval(checkNewMessages, 2000);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("messageInput");
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            const messages = getMessages();
+            const newMessage = {
+                id: Date.now(),
+                user: currentUsername,
+                content: message,
+                timestamp: Date.now()
+            };
+
+            message.push(newMessage);
+            saveMessages(messages);
+
+            input.value = "";
+            displayMessages();
+            scrollToBottom();
+        }
+
+        let lastMessageCount = 0;
+
+        function checkNewMessages() {
+            const messages = getMessages();
+
+            if (messages.length > lastMessageCount) {
+                displayMessages();
+                scrollToBottom();
+            }
+
+            lastMessageCount = messages.length;
+            updateUserCount();
+        }
+
+        // Vérifie toutes les 2 secondes
+        setInterval(checkNewMessages, 2000);
+    </script>
+</body>
+
+</html>
